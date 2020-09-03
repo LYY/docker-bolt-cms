@@ -14,9 +14,9 @@ RUN curl -s -O https://bolt.cm/distribution/bolt-latest.tar.gz && \
     mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini && \
     docker-php-ext-install -j$(nproc) pdo_pgsql pgsql zip exif gd intl opcache && \
     apt-get -y --purge remove libicu-dev libgd-dev && \
+    sh prepare.sh && \
     php app/nut init && \
     sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf && \
     a2enmod rewrite && \
     chown -R www-data.www-data .
-ENTRYPOINT ["sh", "prepare.sh"]
 EXPOSE 80
